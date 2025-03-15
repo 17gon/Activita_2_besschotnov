@@ -8,8 +8,8 @@
         </div>
         <div class="col-25 text-left">
             <h4>Kontaktujte nás</h4>
-            <p><i class="fa fa-envelope" aria-hidden="true"><a href="mailto:livia.kelebercova@gmail.com"> livia.kelebercova@gmail.com</a></i></p>
-            <p><i class="fa fa-phone" aria-hidden="true"><a href="tel:0909500600"> 0909500600</a></i></p>
+            <p><i class="fa fa-envelope" aria-hidden="true"><a href="mailto:mainBoxName@domen"> mainBoxName@domen</a></i></p>
+            <p><i class="fa fa-phone" aria-hidden="true"><a href="tel:0000000000"> 0000000000</a></i></p>
         </div>
         <div class="col-25">
             <h4>Rýchle odkazy</h4>

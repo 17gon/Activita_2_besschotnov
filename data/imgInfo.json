@@ -1,0 +1,52 @@
+{
+  "portfolio": {
+    "portfolio1": {
+      "name": "portfolio1",
+      "description": "Web stránka 1",
+      "href": "index.php",
+      "alt": "portfolio img"
+    },
+    "portfolio2": {
+      "name": "portfolio2",
+      "description": "Web stránka 2",
+      "href": "index.php",
+      "alt": "portfolio img"
+    },
+    "portfolio3": {
+      "name": "portfolio3",
+      "description": "Web stránka 3",
+      "href": "index.php",
+      "alt": "portfolio img"
+    },
+    "portfolio4": {
+      "name": "portfolio4",
+      "description": "Web stránka 4",
+      "href": "index.php",
+      "alt": "portfolio img"
+    },
+    "portfolio5": {
+      "name": "portfolio5",
+      "description": "Web stránka 5",
+      "href": "index.php",
+      "alt": "portfolio img"
+    },
+    "portfolio6": {
+      "name": "portfolio6",
+      "description": "Web stránka 6",
+      "href": "index.php",
+      "alt": "portfolio img"
+    },
+    "portfolio7": {
+      "name": "portfolio7",
+      "description": "Web stránka 7",
+      "href": "index.php",
+      "alt": "portfolio img"
+    },
+    "portfolio8": {
+      "name": "portfolio8",
+      "description": "Web stránka 8",
+      "href": "index.php",
+      "alt": "portfolio img"
+    }
+  }
+}

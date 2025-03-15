@@ -5,13 +5,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Moja stránka</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/accordion.css">
-    <link rel="stylesheet" href="css/banner.css">
+    <?php include "parts/getCSS.php"; getCSS();?>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
-
   <?php include "parts/header.php"; ?>
   <main>
     <section class="banner">
@@ -27,21 +24,8 @@
       </div>
     </section>
       <section class="container">
-      <div class="accordion">
-        <div class="question">Otázka 1</div>
-        <div class="answer">Odpoveď 1</div>
-      </div>
-      <div class="accordion">
-        <div class="question">Otázka 2</div>
-        <div class="answer">Odpoveď 2</div>
-      </div>
-      <div class="accordion">
-        <div class="question">Otázka 3</div>
-        <div class="answer">Odpoveď 3</div>
-      </div>
-    </section>
-    </section>
-  </div>
+        <?php include("parts/genQnA.php"); bakeQnA(); ?>
+      </section>
   </main>
   <?php include "parts/footer.php"; ?>
 <script src="js/accordion.js"></script>
