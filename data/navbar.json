@@ -4,16 +4,16 @@
     "path": "index.php"
   },
   "portfolio": {
-  "name": "Portfolio",
-  "path": "portfolio.php"
+    "name": "Portfolio",
+    "path": "portfolio.php"
   },
   "qna": {
-  "name": "Q&A",
-  "path": "qna.php"
+    "name": "Q&A",
+    "path": "qna.php"
   },
   "kontakt": {
-  "name": "Kontakt",
-  "path": "kontakt.php"
+    "name": "Kontakt",
+    "path": "kontakt.php"
   },
   "Test": {
     "name": "None",

@@ -35,14 +35,15 @@
         </div>
         <div class="col-50 text-right">
           <h3>Napíšte nám</h3>
-          <form id="contact" action="thankyou.php">
-            <input type="text" placeholder="Vaše meno" id ="meno"  required><br>
-            <input type="email" placeholder="Váš email" id="email" required><br>
-            <textarea name="" placeholder="Vaša správa" id="sprava"></textarea><br>
-            <input type="checkbox" name="" id="" required>
-            <label for=""> Súhlasím so spracovaním osobných údajov.</label><br>
-            <input type="submit" value="Odoslať">
-          </form>
+            <form id="contact" method="get" action="dataBase/writeFormular.php">
+                <input type="text" placeholder="Vaše meno" id="firstName" name="firstName" required><br>
+                <input type="text" placeholder="Vaše priezvisko" id="lastName" name="lastName"><br>
+                <input type="email" placeholder="Váš email" id="email" name="email" required><br>
+                <textarea name="sprava" placeholder="Vaša správa" id="sprava"></textarea><br>
+                <input type="checkbox" name="agree" id="agree" required>
+                <label for="agree"> Súhlasím so spracovaním osobných údajov.</label><br>
+                <input type="submit" value="Odoslať">
+            </form>
         </div>
       </div>
     </section>

@@ -14,6 +14,10 @@
     "kontakt": [
       "css/style.css",
       "css/banner.css",
+      "css/form.css"],
+    "thankyou": [
+      "css/style.css",
+      "css/banner.css",
       "css/form.css"]
   }
 }
