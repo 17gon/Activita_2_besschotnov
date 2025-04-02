@@ -3,9 +3,11 @@ function generateNavbar(): string {
     $rawMenu = generateMenu("navbar");
     $formedMenu = selectN(3, $rawMenu);
     $bakedMenu = "";
+    $theme = $_GET["theme"];
+    $insert = $theme === 'dark' ? '?theme=dark' : '?theme=white';
 
     foreach ($formedMenu as $menu => $menuData) {
-        $bakedMenu = $bakedMenu .'<li><a href="'.$menuData['path'].'">'.$menuData['name'].'</a></li>';
+        $bakedMenu .= '<li><a href="'.$menuData['path'].$insert.'">'.$menuData['name'].'</a></li>';
     }
     return $bakedMenu;
 }
