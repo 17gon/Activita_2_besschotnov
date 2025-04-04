@@ -28,7 +28,7 @@
         </div>
         <div class="col-50 text-right">
           <h3>Napíšte nám</h3>
-            <form id="contact" method="get" action="dataBase/writeFormular.php">
+            <form id="contact" method="post" action="dataBase/writeFormular.php">
                 <input type="text" placeholder="Vaše meno" id="firstName" name="firstName" required><br>
                 <input type="text" placeholder="Vaše priezvisko" id="lastName" name="lastName"><br>
                 <input type="email" placeholder="Váš email" id="email" name="email" required><br>
