@@ -1,5 +1,6 @@
 <?php
-require_once("../classes/Kontakt.php");
+define('__ROOT__', dirname(__FILE__, 2));
+require_once(__ROOT__."/classes/Kontakt.php");
 use formular\Kontakt;
 
 $firstName = $_POST['firstName'];

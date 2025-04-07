@@ -1,14 +1,21 @@
 <?php
 namespace formular;
-require_once('../dataBase/config.php');
-use PDO;
+error_reporting(E_ALL);
+ini_set('display_errors', "On");
+use Database;
+use Exception;
 
-class Kontakt{
+require_once(__ROOT__."/classes/Database.php");
+require_once(__ROOT__.'/dataBase/config.php');
 
-    private $conn;
+class Kontakt extends Database {
+
+    protected $connection;
 
     public function __construct() {
         $this->connect();
+
+        $this->connection = $this->getConnection();
     }
 
     public function getUserOrCreate($firstName, $lastName, $email, $text): String {
@@ -33,24 +40,22 @@ class Kontakt{
     }
 
     public function writeComment($userID, $text) {
-        $sql = 'INSERT INTO comments(clientID, date, text) VALUES (?, NOW(), ?)';
-        $statement = $this->conn->prepare($sql);
-
-        try {
-            print("is it statement?");//bug(
-            $statement->execute([$userID, $text]);
+        $sql = 'INSERT INTO comments(clientID, date, text) VALUES (:userID, NOW(), :text)';
+        $statement = $this->connection->prepare($sql);
+        $statement->bindValue(":userID", $userID);
+        $statement->bindValue(":text", $text);
+        $result = $this->requestList($statement)[0];
+        if ($result != Exception::class) {//idk, must work correctly, but not null, because somehow when good response can be null
             http_response_code(200);
-            print("or header?");
             header("Location: http://localhost/sablona/thankyou.php");
-            exit();
-        } catch (\Exception $exception) {
+        } else {
             http_response_code(404);
             die('Chyba pri odosielaní správy do databázy!');
         }
     }
 
     public function __destruct() {
-        $this->conn = null;
+        $this->connection = null;
     }
 
     private function checkInput($firstName, $lastName, $email, $text): bool {
@@ -63,56 +68,30 @@ class Kontakt{
         if ($emailLocal == "" || strlen($emailLocal)>63) { return false; }//not an "@anything" and not impossible length
         if ($emailDomain == "" || strlen($emailDomain)>255) { return false; }//same what before but for domain part
 
-
         return true;
     }
 
     private function getOrNull($emailLocal, $emailDomain) {
-        $sql = 'SELECT clientID FROM client WHERE emailLocal = ? AND emailDomain = ? LIMIT 1';
-        $testQuery = $this->conn->prepare($sql);
-        try {
-            $testResult = $testQuery->execute([$emailLocal, $emailDomain]);
-            if (!$testResult) {return null;}
-            return $testQuery->fetch(PDO::FETCH_ASSOC);
-        } catch (\Exception $exception) {
-            return null;
-        }
+        $sql = 'SELECT clientID FROM client WHERE emailLocal = :emailLocal AND emailDomain = :emailDomain LIMIT 1';
+        $testQuery = $this->connection->prepare($sql);
+        $testQuery->bindValue(":emailLocal", $emailLocal);
+        $testQuery->bindValue(":emailDomain", $emailDomain);
+        return $this->requestList($testQuery)[0];//array as return
     }
 
     private function createUser($firstName, $lastName, $emailLocal, $emailDomain) {
-        $sqlAdd = 'INSERT INTO client (firstName, lastName, emailLocal, emailDomain) VALUES (?, ?, ?, ?)';
-        $sqlGet = 'SELECT clientID FROM client WHERE emailLocal = ? LIMIT 1';
-        $newUser = $this->conn->prepare($sqlAdd);
-        $user = $this->conn->prepare($sqlGet);
-        try {
-            $newUser->execute([$firstName, $lastName, $emailLocal, $emailDomain]);
-            $user->execute([$emailLocal, $emailDomain]);
-            return $user->fetch();
-        } catch (\Exception $exception) {
-            return null;
-        }
-    }
+        $sqlAdd = 'INSERT INTO client (firstName, lastName, emailLocal, emailDomain) VALUES (:fN, :lN, :eL, :eD)';
+        $newUser = $this->connection->prepare($sqlAdd);
+        $newUser->bindValue(":fN", $firstName);
+        $newUser->bindValue(":lN", $lastName);
+        $newUser->bindValue(":eL", $emailLocal);
+        $newUser->bindValue(":eD", $emailDomain);
 
-    private function connect() {
-        $config = DATABASE;
-
-        $options = array(
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-            );
-
-        try {
-            $this->conn = new PDO('mysql:host='
-                .$config['HOST']
-                .';dbname='
-                .$config['DBNAME']
-                .';port='
-                .$config['PORT'],
-                $config['USER_NAME'],
-                $config['PASSWORD'], $options);
-        } catch (PDOException $e) {
-            die("Chyba pripojenia: " . $e->getMessage());
-        }
+        $sqlGet = 'SELECT clientID FROM client WHERE emailLocal = :eL AND emailDomain = :eD LIMIT 1';
+        $user = $this->connection->prepare($sqlGet);
+        $user->bindValue(":eL", $emailLocal);
+        $user->bindValue(":eD", $emailDomain);
+        return $this->requestList($newUser, $user)[1];//first hasn't result
     }
 
 }
