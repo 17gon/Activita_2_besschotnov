@@ -42,7 +42,7 @@ class Kontakt{
             http_response_code(200);
             print("or header?");
             header("Location: http://localhost/sablona/thankyou.php");
-            exit(); // important!
+            exit();
         } catch (\Exception $exception) {
             http_response_code(404);
             die('Chyba pri odosielaní správy do databázy!');
