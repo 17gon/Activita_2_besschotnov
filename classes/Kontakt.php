@@ -41,10 +41,10 @@ class Kontakt extends Database {
 
     public function writeComment($userID, $text) {
         $sql = 'INSERT INTO comments(clientID, date, text) VALUES (:userID, NOW(), :text)';
-        $statement = $this->connection->prepare($sql);
-        $statement->bindValue(":userID", $userID);
-        $statement->bindValue(":text", $text);
-        $result = $this->requestList($statement)[0];
+        $params = array();
+        $params['userID'] = $userID;
+        $params['text'] = $text;
+        $result = $this->request($sql, $params);
         if ($result != Exception::class) {//idk, must work correctly, but not null, because somehow when good response can be null
             http_response_code(200);
             header("Location: http://localhost/sablona/thankyou.php");
@@ -74,24 +74,20 @@ class Kontakt extends Database {
     private function getOrNull($emailLocal, $emailDomain) {
         $sql = 'SELECT clientID FROM client WHERE emailLocal = :emailLocal AND emailDomain = :emailDomain LIMIT 1';
         $testQuery = $this->connection->prepare($sql);
-        $testQuery->bindValue(":emailLocal", $emailLocal);
-        $testQuery->bindValue(":emailDomain", $emailDomain);
-        return $this->requestList($testQuery)[0];//array as return
+        $params = array('emailLocal' => $emailLocal, 'emailDomain' => $emailDomain);
+        return $this->requestList($testQuery, $params);
     }
 
     private function createUser($firstName, $lastName, $emailLocal, $emailDomain) {
         $sqlAdd = 'INSERT INTO client (firstName, lastName, emailLocal, emailDomain) VALUES (:fN, :lN, :eL, :eD)';
-        $newUser = $this->connection->prepare($sqlAdd);
-        $newUser->bindValue(":fN", $firstName);
-        $newUser->bindValue(":lN", $lastName);
-        $newUser->bindValue(":eL", $emailLocal);
-        $newUser->bindValue(":eD", $emailDomain);
+        $paramsNew = array('fN' => $firstName, 'lN' => $lastName, 'eL' => $emailLocal, 'eD' => $emailDomain);
+        $this->request($sqlAdd, $paramsNew);
 
         $sqlGet = 'SELECT clientID FROM client WHERE emailLocal = :eL AND emailDomain = :eD LIMIT 1';
         $user = $this->connection->prepare($sqlGet);
-        $user->bindValue(":eL", $emailLocal);
-        $user->bindValue(":eD", $emailDomain);
-        return $this->requestList($newUser, $user)[1];//first hasn't result
+        $paramsGet = array('eL' => $emailLocal, 'eD' => $emailDomain);
+
+        return $this->request($paramsGet, $sqlGet)[1];//first hasn't result
     }
 
 }

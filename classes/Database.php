@@ -18,6 +18,26 @@ class Database {
         return $this->conn;
     }
 
+    public function request($sql, $params = null, $isFetchAll=false) {
+        $statement = $this->conn->prepare($sql);
+        if ($params !== null) {
+            foreach ($params as $key => $value) {
+                $statement->bindValue(":$key", $value);
+            }
+        }
+        try {
+            $result = $statement->execute();
+            if (!$result) {return null;}
+            if ($isFetchAll) {
+                return $statement->fetchAll(PDO::FETCH_ASSOC);
+            } else {
+                return $statement->fetch(PDO::FETCH_ASSOC);
+            }
+        } catch (\Exception $exception) {
+            return $exception;
+        }
+    }
+
     public function requestList(...$sql) {
         $sqlArray = array();
         foreach ($sql as $query) {
@@ -29,7 +49,7 @@ class Database {
             foreach ($sqlArray as $query) {
                  $result = $query->execute();
                  if (!$result) {return null;}
-                 $fetch = $query->fetch(PDO::FETCH_ASSOC);
+                 $fetch = $query->fetchAll(PDO::FETCH_ASSOC);
                  $outFetch[] = $fetch;
             }
             return $outFetch;

@@ -1,4 +1,5 @@
 <?php
+define('__ROOT__', dirname(__FILE__, 2));
 include_once("classes/QnA.php");
 use qna\QnA;
 
