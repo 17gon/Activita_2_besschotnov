@@ -75,7 +75,7 @@ class Kontakt extends Database {
         $sql = 'SELECT clientID FROM client WHERE emailLocal = :emailLocal AND emailDomain = :emailDomain LIMIT 1';
         $testQuery = $this->connection->prepare($sql);
         $params = array('emailLocal' => $emailLocal, 'emailDomain' => $emailDomain);
-        return $this->requestList($testQuery, $params);
+        return $this->request($testQuery, $params);
     }
 
     private function createUser($firstName, $lastName, $emailLocal, $emailDomain) {

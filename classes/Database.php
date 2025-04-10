@@ -38,26 +38,6 @@ class Database {
         }
     }
 
-    public function requestList(...$sql) {
-        $sqlArray = array();
-        foreach ($sql as $query) {
-            $sqlArray[] = $query;
-        }
-
-        $outFetch = array();
-        try {
-            foreach ($sqlArray as $query) {
-                 $result = $query->execute();
-                 if (!$result) {return null;}
-                 $fetch = $query->fetchAll(PDO::FETCH_ASSOC);
-                 $outFetch[] = $fetch;
-            }
-            return $outFetch;
-        } catch (\Exception $exception) {
-            return $exception;
-        }
-    }
-
     protected function connect() {
         $config = DATABASE;
 
